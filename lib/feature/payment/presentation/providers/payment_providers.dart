@@ -8,50 +8,52 @@ class PaymentProviders with ChangeNotifier {
   PaymentProviders({required this.paymentUsecase});
 
   bool _isLoading = false;
-  String? _errorMessage = '';
-  Payment? _payment = Payment(
-    invoiceNumber: '',
-    transactionType: '',
-    serviceName: '',
-    serviceCode: '',
-    totalAmount: 0,
-    createdOn: DateTime.now(),
-  );
+  String? _errorMessage;
+  bool? _isPaymentSuccess;
+  Payment? _payment;
 
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
+  bool? get isPaymentSuccess => _isPaymentSuccess;
   Payment? get payment => _payment;
 
-  void _setLoading(bool value) {
-    _isLoading = value;
-    notifyListeners();
-  }
-
-  void setErrorMessage(String? value) {
-    _errorMessage = value;
+  void _updateState({
+    bool? isLoading,
+    String? errorMessage,
+    bool? isPaymentSuccess,
+    Payment? payment,
+  }) {
+    if (isLoading != null) _isLoading = isLoading;
+    if (errorMessage != null) _errorMessage = errorMessage;
+    if (isPaymentSuccess != null) _isPaymentSuccess = isPaymentSuccess;
+    if (payment != null) _payment = payment;
     notifyListeners();
   }
 
   Future<void> getPayment(
       String transactionType, String serviceCode, int amount) async {
-    _setLoading(true);
-    setErrorMessage(null);
+    _updateState(isLoading: true, errorMessage: null, isPaymentSuccess: null);
+
     try {
       final response =
           await paymentUsecase.getPayment(transactionType, serviceCode, amount);
       response.fold(
-        (l) {
-          debugPrint('Error: $l');
-          setErrorMessage(l.message);
-        },
-        (r) {
-          _payment = r.data;
-          debugPrint('Success: $r');
-        },
+        (failure) => _updateState(
+          isLoading: false,
+          isPaymentSuccess: false,
+          errorMessage: failure.message,
+        ),
+        (success) => _updateState(
+          isLoading: false,
+          isPaymentSuccess: true,
+          payment: success.data,
+        ),
       );
-      _setLoading(false);
-    } finally {
-      _setLoading(false);
+    } catch (e) {
+      _updateState(
+        isLoading: false,
+        errorMessage: e.toString(),
+      );
     }
   }
 }

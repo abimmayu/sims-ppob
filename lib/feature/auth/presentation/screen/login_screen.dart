@@ -8,7 +8,6 @@ import 'package:sims_ppob_abim/core/router/page_router.dart';
 import 'package:sims_ppob_abim/core/utils/text_style/text_style.dart';
 import 'package:sims_ppob_abim/core/widgets/button_filled.dart';
 import 'package:sims_ppob_abim/core/widgets/logo_horizontal.dart';
-import 'package:sims_ppob_abim/core/widgets/logo_vertical.dart';
 import 'package:sims_ppob_abim/feature/auth/presentation/providers/auth_providers.dart';
 import 'package:sims_ppob_abim/feature/auth/presentation/screen/widgets/snackbar_error.dart';
 import 'package:sims_ppob_abim/feature/auth/presentation/screen/widgets/text_field_custom.dart';
@@ -87,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: double.infinity,
                           child: LogoWidgetHorizontal(),
                         ),

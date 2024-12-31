@@ -5,8 +5,10 @@ import 'package:sims_ppob_abim/core/router/page_router.dart';
 import 'package:sims_ppob_abim/core/utils/depedency/depedency_injection.dart'
     as di;
 import 'package:sims_ppob_abim/feature/auth/presentation/providers/auth_providers.dart';
+import 'package:sims_ppob_abim/feature/history/presentation/providers/history_providers.dart';
 import 'package:sims_ppob_abim/feature/home/presentation/providers/home_providers.dart';
 import 'package:sims_ppob_abim/feature/payment/presentation/providers/payment_providers.dart';
+import 'package:sims_ppob_abim/feature/topup/presentation/providers/topup_provider.dart';
 
 void main() {
   di.init();
@@ -29,6 +31,12 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => di.di<PaymentProviders>(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => di.di<TopupProvider>(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => di.di<HistoryProviders>(),
         ),
       ],
       child: ScreenUtilInit(

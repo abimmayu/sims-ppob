@@ -8,7 +8,7 @@ class BottomNavBar extends StatefulWidget {
     this.currentIndex = 0,
   });
 
-  int currentIndex;
+  int? currentIndex;
 
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
@@ -19,7 +19,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       onTap: onTabTapped,
-      currentIndex: widget.currentIndex,
+      currentIndex: widget.currentIndex!,
       type: BottomNavigationBarType.fixed,
       backgroundColor: Colors.white,
       selectedItemColor: Colors.black,

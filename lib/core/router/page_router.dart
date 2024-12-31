@@ -63,35 +63,35 @@ final GoRouter router = GoRouter(
             );
           },
         ),
-      ],
-    ),
-    GoRoute(
-      path: '/topup',
-      name: AppRoute.topupScreen.name,
-      builder: (context, state) {
-        return const TopupScreen();
-      },
-    ),
-    GoRoute(
-      path: '/history',
-      name: AppRoute.historyScreen.name,
-      builder: (context, state) {
-        return const HistoryScreen();
-      },
-    ),
-    GoRoute(
-      path: '/profile',
-      name: AppRoute.profileScreen.name,
-      builder: (context, state) {
-        return const ProfileScreen();
-      },
-      routes: [
         GoRoute(
-          path: 'account-setting',
-          name: AppRoute.accountSettingScreen.name,
+          path: '/topup',
+          name: AppRoute.topupScreen.name,
           builder: (context, state) {
-            return const AccountSettingScreen();
+            return const TopupScreen();
           },
+        ),
+        GoRoute(
+          path: '/history',
+          name: AppRoute.historyScreen.name,
+          builder: (context, state) {
+            return const HistoryScreen();
+          },
+        ),
+        GoRoute(
+          path: '/profile',
+          name: AppRoute.profileScreen.name,
+          builder: (context, state) {
+            return const ProfileScreen();
+          },
+          routes: [
+            GoRoute(
+              path: 'account-setting',
+              name: AppRoute.accountSettingScreen.name,
+              builder: (context, state) {
+                return const AccountSettingScreen();
+              },
+            ),
+          ],
         ),
       ],
     ),

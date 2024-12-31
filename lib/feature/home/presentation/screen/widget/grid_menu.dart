@@ -30,9 +30,10 @@ class _GridMenuState extends State<GridMenu> {
 
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        mainAxisExtent: 230.h,
         crossAxisCount: 6,
-        crossAxisSpacing: 10.w,
-        mainAxisSpacing: 40.h,
+        crossAxisSpacing: 5.w,
+        mainAxisSpacing: 0.h,
       ),
       shrinkWrap: true,
       itemCount: controller.services.length,
@@ -68,7 +69,7 @@ class _GridMenuState extends State<GridMenu> {
                 child: Text(
                   service.serviceCode.split('_').join(' '),
                   style: AppTextStyle.body().copyWith(
-                    fontSize: 20.sp,
+                    fontSize: 24.sp,
                     fontWeight: FontWeight.w700,
                   ),
                   textAlign: TextAlign.center,

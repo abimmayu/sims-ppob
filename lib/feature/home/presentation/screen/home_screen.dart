@@ -24,13 +24,13 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Column(
           children: [
             SizedBox(
-              height: 1600.h,
+              height: 1500.h,
               child: ListView(
                 padding: EdgeInsets.fromLTRB(50.w, 50.w, 50.w, 0),
                 children: [
                   const HeadProfile(),
                   SizedBox(
-                    height: 50.h,
+                    height: 100.h,
                   ),
                   Text(
                     "Selamat datang,",
@@ -45,10 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   SizedBox(
-                    height: 50.h,
+                    height: 100.h,
                   ),
                   SaldoWidget(
-                    saldo: 10000,
                     isObsecure: isObsecure,
                     isHome: true,
                     onTap: () {
@@ -62,17 +61,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(
                     width: double.infinity,
-                    height: 450.h,
+                    height: 500.h,
                     child: const GridMenu(),
                   ),
                 ],
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(left: 50.w),
-                child: const BannerCarousel(),
-              ),
+            Container(
+              width: double.infinity,
+              height: 500.h,
+              padding: EdgeInsets.only(left: 50.w),
+              child: const BannerCarousel(),
             ),
           ],
         ),

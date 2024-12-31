@@ -7,9 +7,11 @@ class ButtonFilled extends StatelessWidget {
     super.key,
     required this.text,
     required this.onPressed,
+    this.color,
   });
   final String text;
   final VoidCallback onPressed;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,7 @@ class ButtonFilled extends StatelessWidget {
       height: 50,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColor.primaryColor,
+          backgroundColor: color ?? AppColor.primaryColor,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
         onPressed: onPressed,

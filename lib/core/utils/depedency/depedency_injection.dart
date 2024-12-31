@@ -8,6 +8,11 @@ import 'package:sims_ppob_abim/feature/auth/domain/repository/auth_repository.da
 import 'package:sims_ppob_abim/feature/auth/domain/usecase/login_usecase.dart';
 import 'package:sims_ppob_abim/feature/auth/domain/usecase/registration_usecase.dart';
 import 'package:sims_ppob_abim/feature/auth/presentation/providers/auth_providers.dart';
+import 'package:sims_ppob_abim/feature/history/data/datasource/history_datasource.dart';
+import 'package:sims_ppob_abim/feature/history/data/repository/history_repository_impl.dart';
+import 'package:sims_ppob_abim/feature/history/domain/repository/history_repository.dart';
+import 'package:sims_ppob_abim/feature/history/domain/usecase/history_usecase.dart';
+import 'package:sims_ppob_abim/feature/history/presentation/providers/history_providers.dart';
 import 'package:sims_ppob_abim/feature/home/data/datasources/home_datasource.dart';
 import 'package:sims_ppob_abim/feature/home/data/repository/home_repository_impl.dart';
 import 'package:sims_ppob_abim/feature/home/domain/repository/home_repository.dart';
@@ -19,6 +24,12 @@ import 'package:sims_ppob_abim/feature/payment/data/repository/payment_repositor
 import 'package:sims_ppob_abim/feature/payment/domain/repository/payment_respository_impl.dart';
 import 'package:sims_ppob_abim/feature/payment/domain/usecase/payment_usecase.dart';
 import 'package:sims_ppob_abim/feature/payment/presentation/providers/payment_providers.dart';
+import 'package:sims_ppob_abim/feature/topup/data/datasource/topup_datasource.dart';
+import 'package:sims_ppob_abim/feature/topup/data/repository/topup_repository_impl.dart';
+import 'package:sims_ppob_abim/feature/topup/domain/repository/topup_repository.dart';
+import 'package:sims_ppob_abim/feature/topup/domain/usecase/balance_usecase.dart';
+import 'package:sims_ppob_abim/feature/topup/domain/usecase/topup_usecase.dart';
+import 'package:sims_ppob_abim/feature/topup/presentation/providers/topup_provider.dart';
 
 final GetIt di = GetIt.instance;
 
@@ -29,6 +40,8 @@ void init() async {
   await _auth();
   await _home();
   await _payment();
+  await _topup();
+  await _history();
 }
 
 Future<void> _localStorage() async {
@@ -45,17 +58,13 @@ Future<void> _apiServices() async {
 
 Future<void> _auth() async {
   // Datasource
-  di.registerLazySingleton<AuthLocalDatasource>(
-    () => AuthLocalDatasourceImpl(
-      di(),
-    ),
-  );
+  di.registerLazySingleton<AuthLocalDatasource>(() => AuthLocalDatasourceImpl(
+        di(),
+      ));
 
   // Repository
   di.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(
-      di(),
-    ),
+    () => AuthRepositoryImpl(di()),
   );
 
   // Usecase
@@ -64,27 +73,19 @@ Future<void> _auth() async {
 
   // Provider
   di.registerFactory(
-    () => AuthProvider(
-      di(),
-      di(),
-      di(),
-    ),
+    () => AuthProvider(di(), di(), di()),
   );
 }
 
 Future<void> _home() async {
   // Datasource
   di.registerLazySingleton<HomeDatasource>(
-    () => HomeDatasourceImpl(
-      di(),
-    ),
+    () => HomeDatasourceImpl(di()),
   );
 
   // Repository
   di.registerLazySingleton<HomeRepository>(
-    () => HomeRepositoryImpl(
-      homeDatasource: di(),
-    ),
+    () => HomeRepositoryImpl(homeDatasource: di()),
   );
 
   // Usecase
@@ -93,38 +94,72 @@ Future<void> _home() async {
 
   // Provider
   di.registerFactory(
-    () => HomeProviders(
-      di(),
-      di(),
-    ),
+    () => HomeProviders(di(), di()),
   );
 }
 
 Future<void> _payment() async {
   // Datasource
   di.registerLazySingleton<PaymentDatasource>(
-    () => PaymentDatasourceImpl(
-      di(),
-    ),
+    () => PaymentDatasourceImpl(di()),
   );
   // Repository
   di.registerLazySingleton<PaymentRepository>(
-    () => PaymentRepositoryImpl(
-      paymentDatasource: di(),
-    ),
+    () => PaymentRepositoryImpl(paymentDatasource: di()),
   );
 
   // Usecase
   di.registerLazySingleton(
-    () => PaymentUsecase(
-      paymentRepository: di(),
-    ),
+    () => PaymentUsecase(paymentRepository: di()),
   );
 
   // Provider
   di.registerFactory(
-    () => PaymentProviders(
-      paymentUsecase: di(),
-    ),
+    () => PaymentProviders(paymentUsecase: di()),
+  );
+}
+
+Future<void> _topup() async {
+  // Datasource
+  di.registerLazySingleton<TopupDatasource>(
+    () => TopupDatasourceImpl(di()),
+  );
+
+  // Repository
+  di.registerLazySingleton<TopupRepository>(
+    () => TopupRepositoryImpl(di()),
+  );
+
+  // Usecase
+  di.registerLazySingleton(
+    () => TopupUsecase(di()),
+  );
+  di.registerLazySingleton(
+    () => BalanceUsecase(di()),
+  );
+
+  // Provider
+  di.registerFactory(
+    () => TopupProvider(di(), di()),
+  );
+}
+
+Future<void> _history() async {
+  // Datasource
+  di.registerLazySingleton<HistoryDatasource>(
+    () => HistoryDatasourceImpl(di()),
+  );
+
+  // Repository
+  di.registerLazySingleton<HistoryRepository>(
+    () => HistoryRepositoryImpl(di()),
+  );
+
+  // Usecase
+  di.registerLazySingleton(() => HistoryUsecase(di()));
+
+  // Provider
+  di.registerFactory(
+    () => HistoryProviders(di()),
   );
 }
